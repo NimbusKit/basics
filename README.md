@@ -2,7 +2,7 @@
 
 <div id="github" feature="Basics"></div>
 
-![](https://github.com/NimbusKit/Basics/raw/master/docs/gfx/banner.gif "SDK Core")
+![](https://github.com/NimbusKit/Basics/raw/master/docs/gfx/banner.gif "Basics")
 
 The single header, `NimbusKitBasics.h`, is designed to be dropped into any source code or library. Within, you'll find plenty of common app-development goodies.
 
