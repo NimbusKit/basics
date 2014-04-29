@@ -165,10 +165,17 @@ For example:
 
 We'd all love to use tgmath.h for its lovely type-generic methods, but due to a bug in the way Xcode's new modules feature works you have to choose one or the other. [Relevant open radar](http://www.openradar.me/16744288).
 
-In the meantime, you can use any of the provided `NICGFloat_`-prefixed standard math methods to write architecture-independant math code. For example, `floor` and `floorf` can be replaced with a generic call to `NICGFloat_floor`, which accepts a `CGFloat` type.
+In the meantime, all of the standard math functions are explicitly mapped to use the tgmath equivalents when you import NimbusKitBasics. Apple may fix the bug with modules/tgmath, at which point you can disable NimbusKit Basics' remapping by defining `NI_DISABLE_GENERIC_MATH` in your project's preprocessor macros.
 
 Version History
 ===============
+
+1.2.0 on Apr 30, 2014
+-----
+
+32/64 bit math using standard math function names (thanks to [@steipete](http://twitter.com/steipete) for [pointing this out](https://gist.github.com/steipete/11403178)!).
+
+Bumping the version because of the API changes, even though this is a fairly minor change.
 
 1.1.0 on Apr 30, 2014
 -----

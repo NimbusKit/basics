@@ -318,365 +318,157 @@ CG_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
 
 #pragma mark 32/64 Bit Support
 
-// Until tgmath.h is able to work with modules enabled, you may use the following CGFloat math
-// functions to support 32/64 bit code.
+
+#if CGFLOAT_IS_DOUBLE
+#define NI_CGFLOAT_EPSILON DBL_EPSILON
+#else
+#define NI_CGFLOAT_EPSILON FLT_EPSILON
+#endif
+
+#ifndef NI_DISABLE_GENERIC_MATH
+
+#import <tgmath.h>
+
+// Until tgmath.h is able to work with modules enabled, the following explicit remappings of the
+// common math functions are provided.
 // http://stackoverflow.com/questions/23333287/tgmath-h-doesnt-work-if-modules-are-enabled
 // http://www.openradar.me/16744288
 
-#if CGFLOAT_IS_DOUBLE
-  #define NI_CGFLOAT_EPSILON DBL_EPSILON
-#else
-  #define NI_CGFLOAT_EPSILON FLT_EPSILON
-#endif
+#undef acos
+#define acos(__x) __tg_acos(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_acos(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return acos(x);
-#else
-  return acosf(x);
-#endif
-}
+#undef asin
+#define asin(__x) __tg_asin(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_asin(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return asin(x);
-#else
-  return asinf(x);
-#endif
-}
+#undef atan
+#define atan(__x) __tg_atan(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_atan(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return atan(x);
-#else
-  return atanf(x);
-#endif
-}
+#undef atan2
+#define atan2(__x, __y) __tg_atan2(__tg_promote2((__x), (__y))(__x), __tg_promote2((__x), (__y))(__y))
 
-CG_INLINE CGFloat NICGFloat_atan2(CGFloat x, CGFloat y) {
-#if CGFLOAT_IS_DOUBLE
-  return atan2(x, y);
-#else
-  return atan2f(x, y);
-#endif
-}
+#undef cos
+#define cos(__x) __tg_cos(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_cos(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return cos(x);
-#else
-  return cosf(x);
-#endif
-}
+#undef sin
+#define sin(__x) __tg_sin(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_sin(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return sin(x);
-#else
-  return sinf(x);
-#endif
-}
+#undef tan
+#define tan(__x) __tg_tan(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_tan(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return tan(x);
-#else
-  return tanf(x);
-#endif
-}
+#undef acosh
+#define acosh(__x) __tg_acosh(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_acosh(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return acosh(x);
-#else
-  return acoshf(x);
-#endif
-}
+#undef asinh
+#define asinh(__x) __tg_asinh(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_asinh(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return asinh(x);
-#else
-  return asinhf(x);
-#endif
-}
+#undef atanh
+#define atanh(__x) __tg_atanh(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_atanh(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return atanh(x);
-#else
-  return atanhf(x);
-#endif
-}
+#undef cosh
+#define cosh(__x) __tg_cosh(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_cosh(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return cosh(x);
-#else
-  return coshf(x);
-#endif
-}
+#undef sinh
+#define sinh(__x) __tg_sinh(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_sinh(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return sinh(x);
-#else
-  return sinhf(x);
-#endif
-}
+#undef tanh
+#define tanh(__x) __tg_tanh(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_tanh(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return tanh(x);
-#else
-  return tanhf(x);
-#endif
-}
+#undef exp
+#define exp(__x) __tg_exp(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_exp(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return exp(x);
-#else
-  return expf(x);
-#endif
-}
+#undef exp2
+#define exp2(__x) __tg_exp2(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_exp2(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return exp2(x);
-#else
-  return exp2f(x);
-#endif
-}
+#undef expm1
+#define expm1(__x) __tg_expm1(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_expm1(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return expm1(x);
-#else
-  return expm1f(x);
-#endif
-}
+#undef log
+#define log(__x) __tg_log(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_log(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return log(x);
-#else
-  return logf(x);
-#endif
-}
+#undef log10
+#define log10(__x) __tg_log10(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_log10(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return log10(x);
-#else
-  return log10f(x);
-#endif
-}
+#undef log2
+#define log2(__x) __tg_log2(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_log2(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return log2(x);
-#else
-  return log2f(x);
-#endif
-}
+#undef log1p
+#define log1p(__x) __tg_log1p(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_log1p(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return log1p(x);
-#else
-  return log1pf(x);
-#endif
-}
+#undef logb
+#define logb(__x) __tg_logb(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_logb(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return logb(x);
-#else
-  return logbf(x);
-#endif
-}
+#undef fabs
+#define fabs(__x) __tg_fabs(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_fabs(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return fabs(x);
-#else
-  return fabsf(x);
-#endif
-}
+#undef cbrt
+#define cbrt(__x) __tg_cbrt(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_cbrt(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return cbrt(x);
-#else
-  return cbrtf(x);
-#endif
-}
+#undef hypot
+#define hypot(__x, __y) __tg_hypot(__tg_promote2((__x), (__y))(__x), __tg_promote2((__x), (__y))(__y))
 
-CG_INLINE CGFloat NICGFloat_hypot(CGFloat x, CGFloat y) {
-#if CGFLOAT_IS_DOUBLE
-  return hypot(x, y);
-#else
-  return hypotf(x, y);
-#endif
-}
+#undef pow
+#define pow(__x, __y) __tg_pow(__tg_promote2((__x), (__y))(__x), __tg_promote2((__x), (__y))(__y))
 
-CG_INLINE CGFloat NICGFloat_pow(CGFloat x, CGFloat y) {
-#if CGFLOAT_IS_DOUBLE
-  return pow(x, y);
-#else
-  return powf(x, y);
-#endif
-}
+#undef sqrt
+#define sqrt(__x) __tg_sqrt(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_sqrt(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return sqrt(x);
-#else
-  return sqrtf(x);
-#endif
-}
+#undef erf
+#define erf(__x) __tg_erf(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_erf(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return erf(x);
-#else
-  return erff(x);
-#endif
-}
+#undef erfc
+#define erfc(__x) __tg_erfc(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_erfc(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return erfc(x);
-#else
-  return erfcf(x);
-#endif
-}
+#undef lgamma
+#define lgamma(__x) __tg_lgamma(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_lgamma(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return lgamma(x);
-#else
-  return lgammaf(x);
-#endif
-}
+#undef tgamma
+#define tgamma(__x) __tg_tgamma(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_tgamma(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return tgamma(x);
-#else
-  return tgammaf(x);
-#endif
-}
+#undef ceil
+#define ceil(__x) __tg_ceil(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_ceil(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return ceil(x);
-#else
-  return ceilf(x);
-#endif
-}
+#undef floor
+#define floor(__x) __tg_floor(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_floor(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return floor(x);
-#else
-  return floorf(x);
-#endif
-}
+#undef nearbyint
+#define nearbyint(__x) __tg_nearbyint(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_nearbyint(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return nearbyint(x);
-#else
-  return nearbyintf(x);
-#endif
-}
+#undef rint
+#define rint(__x) __tg_rint(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_rint(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return rint(x);
-#else
-  return rintf(x);
-#endif
-}
+#undef round
+#define round(__x) __tg_round(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_round(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return round(x);
-#else
-  return roundf(x);
-#endif
-}
+#undef trunc
+#define trunc(__x) __tg_trunc(__tg_promote1((__x))(__x))
 
-CG_INLINE CGFloat NICGFloat_trunc(CGFloat x) {
-#if CGFLOAT_IS_DOUBLE
-  return trunc(x);
-#else
-  return truncf(x);
-#endif
-}
+#undef fmod
+#define fmod(__x, __y) __tg_fmod(__tg_promote2((__x), (__y))(__x), __tg_promote2((__x), (__y))(__y))
 
-CG_INLINE CGFloat NICGFloat_fmod(CGFloat x, CGFloat y) {
-#if CGFLOAT_IS_DOUBLE
-  return fmod(x, y);
-#else
-  return fmodf(x, y);
-#endif
-}
+#undef remainder
+#define remainder(__x, __y) __tg_remainder(__tg_promote2((__x), (__y))(__x), __tg_promote2((__x), (__y))(__y))
 
-CG_INLINE CGFloat NICGFloat_remainder(CGFloat x, CGFloat y) {
-#if CGFLOAT_IS_DOUBLE
-  return remainder(x, y);
-#else
-  return remainderf(x, y);
-#endif
-}
+#undef copysign
+#define copysign(__x, __y) __tg_copysign(__tg_promote2((__x), (__y))(__x), __tg_promote2((__x), (__y))(__y))
 
-CG_INLINE CGFloat NICGFloat_copysign(CGFloat x, CGFloat y) {
-#if CGFLOAT_IS_DOUBLE
-  return copysign(x, y);
-#else
-  return copysignf(x, y);
-#endif
-}
+#undef nextafter
+#define nextafter(__x, __y) __tg_nextafter(__tg_promote2((__x), (__y))(__x), __tg_promote2((__x), (__y))(__y))
 
-CG_INLINE CGFloat NICGFloat_nextafter(CGFloat x, CGFloat y) {
-#if CGFLOAT_IS_DOUBLE
-  return nextafter(x, y);
-#else
-  return nextafterf(x, y);
-#endif
-}
+#undef fdim
+#define fdim(__x, __y) __tg_fdim(__tg_promote2((__x), (__y))(__x), __tg_promote2((__x), (__y))(__y))
 
-CG_INLINE CGFloat NICGFloat_fdim(CGFloat x, CGFloat y) {
-#if CGFLOAT_IS_DOUBLE
-  return fdim(x, y);
-#else
-  return fdimf(x, y);
-#endif
-}
+#undef fmax
+#define fmax(__x, __y) __tg_fmax(__tg_promote2((__x), (__y))(__x), __tg_promote2((__x), (__y))(__y))
 
-CG_INLINE CGFloat NICGFloat_fmax(CGFloat x, CGFloat y) {
-#if CGFLOAT_IS_DOUBLE
-  return fmax(x, y);
-#else
-  return fmaxf(x, y);
-#endif
-}
+#undef fmin
+#define fmin(__x, __y) __tg_fmin(__tg_promote2((__x), (__y))(__x), __tg_promote2((__x), (__y))(__y))
 
-CG_INLINE CGFloat NICGFloat_fmin(CGFloat x, CGFloat y) {
-#if CGFLOAT_IS_DOUBLE
-  return fmin(x, y);
-#else
-  return fminf(x, y);
-#endif
-}
+#endif // #ifndef NI_DISABLE_GENERIC_MATH
 
 #pragma mark Current Version
 
 #ifndef NIMBUSKIT_BASICS_VERSION
-#define NIMBUSKIT_BASICS_VERSION NIMBUSKIT_BASICS_1_1_0
+#define NIMBUSKIT_BASICS_VERSION NIMBUSKIT_BASICS_1_2_0
 #endif
 
 #endif // #ifndef _NIMBUSKIT_BASICS_H_
@@ -691,11 +483,15 @@ CG_INLINE CGFloat NICGFloat_fmin(CGFloat x, CGFloat y) {
 #define NIMBUSKIT_BASICS_1_1_0 10100
 #endif
 
+#ifndef NIMBUSKIT_BASICS_1_2_0
+#define NIMBUSKIT_BASICS_1_2_0 10200
+#endif
+
 #pragma mark Version Check
 
 #ifndef NI_SUPPRESS_VERSION_WARNINGS
 
-  #if NIMBUSKIT_BASICS_VERSION < NIMBUSKIT_BASICS_1_1_0
+  #if NIMBUSKIT_BASICS_VERSION < NIMBUSKIT_BASICS_1_2_0
 
     // These macros allow us to inline C-strings with macro values.
     #ifndef NI_MACRO_DEFER
@@ -708,7 +504,7 @@ CG_INLINE CGFloat NICGFloat_fmin(CGFloat x, CGFloat y) {
     #define NI_MACRO_INLINE_STR(str) NI_MACRO_DEFER(NI_MACRO_STR, str)
     #endif
 
-    #pragma message "An older version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_VERSION) ") of NimbusKit's Basics was imported prior to this version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_1_1_0) "). This may cause unexpected behavior. You may suppress this warning by defining NI_SUPPRESS_VERSION_WARNINGS"
+    #pragma message "An older version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_VERSION) ") of NimbusKit's Basics was imported prior to this version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_1_2_0) "). This may cause unexpected behavior. You may suppress this warning by defining NI_SUPPRESS_VERSION_WARNINGS"
 
   #endif // NIMBUSKIT_BASICS_VERSION check
 
