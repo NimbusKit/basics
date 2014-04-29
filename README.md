@@ -160,10 +160,24 @@ For example:
 #endif
 ```
 
+32/64 Bit Math
+--------------
+
+We'd all love to use tgmath.h for its lovely type-generic methods, but due to a bug in the way Xcode's new modules feature works you have to choose one or the other. [Relevant open radar](http://www.openradar.me/16744288).
+
+In the meantime, you can use any of the provided `NICGFloat_`-prefixed standard math methods to write architecture-independant math code. For example, `floor` and `floorf` can be replaced with a generic call to `NICGFloat_floor`, which accepts a `CGFloat` type.
+
 Version History
 ===============
 
-1.0.0
+1.1.0 on Apr 30, 2014
+-----
+
+32/64 bit math!
+
+- NI_DASSERT are now automatically disabled when running unit tests.
+
+1.0.0 on Apr 29, 2014
 -----
 
 Initial release. Includes:

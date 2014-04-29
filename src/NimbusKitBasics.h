@@ -142,15 +142,21 @@ CG_INLINE int NIIsInDebugger(void) {
   return (info.kp_proc.p_flag & P_TRACED) != 0;
 }
 
+CG_INLINE BOOL NIIsRunningTests(void) {
+  NSString* injectBundle = [[NSProcessInfo processInfo] environment][@"XCInjectBundle"];
+  NSString* pathExtension = [injectBundle pathExtension];
+  return ([pathExtension isEqualToString:@"octest"] || [pathExtension isEqualToString:@"xctest"]);
+}
+
 #if TARGET_IPHONE_SIMULATOR
 // We use the __asm__ in this macro so that when a break occurs, we don't have to step out of
 // a "breakInDebugger" function.
 #define NI_DASSERT(xx) { if (!(xx)) { NI_DPRINT(@"NI_DASSERT failed: %s", #xx); \
-                         if (NIIsInDebugger()) { __asm__("int $3\n" : : ); } } \
+                         if (NIIsInDebugger() && !NIIsRunningTests()) { __asm__("int $3\n" : : ); } } \
                        } ((void)0)
 #else
 #define NI_DASSERT(xx) { if (!(xx)) { NI_DPRINT(@"NI_DASSERT failed: %s", #xx); \
-                         if (NIIsInDebugger()) { raise(SIGTRAP); } } \
+                         if (NIIsInDebugger() && !NIIsRunningTests()) { raise(SIGTRAP); } } \
                        } ((void)0)
 #endif // #if TARGET_IPHONE_SIMULATOR
 
@@ -309,10 +315,368 @@ CG_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
 #define kCFCoreFoundationVersionNumber_iOS_6_1 793.00
 #endif
 
+
+#pragma mark 32/64 Bit Support
+
+// Until tgmath.h is able to work with modules enabled, you may use the following CGFloat math
+// functions to support 32/64 bit code.
+// http://stackoverflow.com/questions/23333287/tgmath-h-doesnt-work-if-modules-are-enabled
+// http://www.openradar.me/16744288
+
+#if CGFLOAT_IS_DOUBLE
+  #define NI_CGFLOAT_EPSILON DBL_EPSILON
+#else
+  #define NI_CGFLOAT_EPSILON FLT_EPSILON
+#endif
+
+CG_INLINE CGFloat NICGFloat_acos(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return acos(x);
+#else
+  return acosf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_asin(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return asin(x);
+#else
+  return asinf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_atan(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return atan(x);
+#else
+  return atanf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_atan2(CGFloat x, CGFloat y) {
+#if CGFLOAT_IS_DOUBLE
+  return atan2(x, y);
+#else
+  return atan2f(x, y);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_cos(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return cos(x);
+#else
+  return cosf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_sin(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return sin(x);
+#else
+  return sinf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_tan(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return tan(x);
+#else
+  return tanf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_acosh(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return acosh(x);
+#else
+  return acoshf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_asinh(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return asinh(x);
+#else
+  return asinhf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_atanh(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return atanh(x);
+#else
+  return atanhf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_cosh(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return cosh(x);
+#else
+  return coshf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_sinh(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return sinh(x);
+#else
+  return sinhf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_tanh(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return tanh(x);
+#else
+  return tanhf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_exp(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return exp(x);
+#else
+  return expf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_exp2(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return exp2(x);
+#else
+  return exp2f(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_expm1(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return expm1(x);
+#else
+  return expm1f(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_log(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return log(x);
+#else
+  return logf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_log10(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return log10(x);
+#else
+  return log10f(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_log2(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return log2(x);
+#else
+  return log2f(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_log1p(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return log1p(x);
+#else
+  return log1pf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_logb(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return logb(x);
+#else
+  return logbf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_fabs(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return fabs(x);
+#else
+  return fabsf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_cbrt(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return cbrt(x);
+#else
+  return cbrtf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_hypot(CGFloat x, CGFloat y) {
+#if CGFLOAT_IS_DOUBLE
+  return hypot(x, y);
+#else
+  return hypotf(x, y);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_pow(CGFloat x, CGFloat y) {
+#if CGFLOAT_IS_DOUBLE
+  return pow(x, y);
+#else
+  return powf(x, y);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_sqrt(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return sqrt(x);
+#else
+  return sqrtf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_erf(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return erf(x);
+#else
+  return erff(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_erfc(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return erfc(x);
+#else
+  return erfcf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_lgamma(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return lgamma(x);
+#else
+  return lgammaf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_tgamma(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return tgamma(x);
+#else
+  return tgammaf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_ceil(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return ceil(x);
+#else
+  return ceilf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_floor(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return floor(x);
+#else
+  return floorf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_nearbyint(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return nearbyint(x);
+#else
+  return nearbyintf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_rint(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return rint(x);
+#else
+  return rintf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_round(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return round(x);
+#else
+  return roundf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_trunc(CGFloat x) {
+#if CGFLOAT_IS_DOUBLE
+  return trunc(x);
+#else
+  return truncf(x);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_fmod(CGFloat x, CGFloat y) {
+#if CGFLOAT_IS_DOUBLE
+  return fmod(x, y);
+#else
+  return fmodf(x, y);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_remainder(CGFloat x, CGFloat y) {
+#if CGFLOAT_IS_DOUBLE
+  return remainder(x, y);
+#else
+  return remainderf(x, y);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_copysign(CGFloat x, CGFloat y) {
+#if CGFLOAT_IS_DOUBLE
+  return copysign(x, y);
+#else
+  return copysignf(x, y);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_nextafter(CGFloat x, CGFloat y) {
+#if CGFLOAT_IS_DOUBLE
+  return nextafter(x, y);
+#else
+  return nextafterf(x, y);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_fdim(CGFloat x, CGFloat y) {
+#if CGFLOAT_IS_DOUBLE
+  return fdim(x, y);
+#else
+  return fdimf(x, y);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_fmax(CGFloat x, CGFloat y) {
+#if CGFLOAT_IS_DOUBLE
+  return fmax(x, y);
+#else
+  return fmaxf(x, y);
+#endif
+}
+
+CG_INLINE CGFloat NICGFloat_fmin(CGFloat x, CGFloat y) {
+#if CGFLOAT_IS_DOUBLE
+  return fmin(x, y);
+#else
+  return fminf(x, y);
+#endif
+}
+
 #pragma mark Current Version
 
 #ifndef NIMBUSKIT_BASICS_VERSION
-#define NIMBUSKIT_BASICS_VERSION NIMBUSKIT_BASICS_1_0_0
+#define NIMBUSKIT_BASICS_VERSION NIMBUSKIT_BASICS_1_1_0
 #endif
 
 #endif // #ifndef _NIMBUSKIT_BASICS_H_
@@ -323,11 +687,15 @@ CG_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
 #define NIMBUSKIT_BASICS_1_0_0 10000
 #endif
 
+#ifndef NIMBUSKIT_BASICS_1_1_0
+#define NIMBUSKIT_BASICS_1_1_0 10100
+#endif
+
 #pragma mark Version Check
 
 #ifndef NI_SUPPRESS_VERSION_WARNINGS
 
-  #if NIMBUSKIT_BASICS_VERSION < NIMBUSKIT_BASICS_1_0_0
+  #if NIMBUSKIT_BASICS_VERSION < NIMBUSKIT_BASICS_1_1_0
 
     // These macros allow us to inline C-strings with macro values.
     #ifndef NI_MACRO_DEFER
@@ -340,7 +708,7 @@ CG_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
     #define NI_MACRO_INLINE_STR(str) NI_MACRO_DEFER(NI_MACRO_STR, str)
     #endif
 
-    #pragma message "An older version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_VERSION) ") of NimbusKit's Basics was imported prior to this version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_1_0_0) "). This may cause unexpected behavior. You may suppress this warning by defining NI_SUPPRESS_VERSION_WARNINGS"
+    #pragma message "An older version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_VERSION) ") of NimbusKit's Basics was imported prior to this version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_1_1_0) "). This may cause unexpected behavior. You may suppress this warning by defining NI_SUPPRESS_VERSION_WARNINGS"
 
   #endif // NIMBUSKIT_BASICS_VERSION check
 
