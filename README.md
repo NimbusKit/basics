@@ -1,4 +1,4 @@
-<!--dox @defgroup NimbusBasics NimbusKit Basics -->
+<!--dox @defgroup NimbusKitBasics NimbusKit Basics -->
 
 <div id="github" feature="Basics"></div>
 
@@ -7,9 +7,9 @@
 The single header, `NimbusKitBasics.h`, is designed to be dropped into any source code or library. Within, you'll find plenty of common app-development goodies.
 
 Adding it to your Project
--------------------------
+=========================
 
-Simply drag `NimbusKitBasics.h` from the `src` directory into your app and import it.
+Simply drag `NimbusKitBasics.h` from the `src` directory into your project and import it.
 
 ```objc
 #import "NimbusKitBasics.h"
