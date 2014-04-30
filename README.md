@@ -170,6 +170,14 @@ In the meantime, all of the standard math functions are explicitly mapped to use
 Version History
 ===============
 
+1.2.1 on Apr 30, 2014
+-----
+
+Bug fixes.
+
+- Add missing UIKit import.
+- Misc documentation updates.
+
 1.2.0 on Apr 30, 2014
 -----
 
