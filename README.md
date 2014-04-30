@@ -173,7 +173,7 @@ Version History
 1.2.0 on Apr 30, 2014
 -----
 
-32/64 bit math using standard math function names (thanks to [@steipete](http://twitter.com/steipete) for [pointing this out](https://gist.github.com/steipete/11403178)!).
+32/64 bit math using standard math function names (thanks to [steipete](http://twitter.com/steipete) for [pointing this out](https://gist.github.com/steipete/11403178)!).
 
 Bumping the version because of the API changes, even though this is a fairly minor change.
 
@@ -197,7 +197,7 @@ Initial release. Includes:
 Credits
 =======
 
-Basics was boiled down and trimmed from Nimbus 1.2.0 by [Jeff Verkoeyen](http://jeffverkoeyen.com/) ([@featherless](http://twitter.com/)).
+Basics was boiled down and trimmed from Nimbus 1.2.0 by [Jeff Verkoeyen](http://jeffverkoeyen.com/) ([featherless](http://twitter.com/)).
 
 Contributors
 ------------
