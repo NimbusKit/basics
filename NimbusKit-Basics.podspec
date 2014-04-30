@@ -11,6 +11,7 @@ Pod::Spec.new do |s|
   s.author             = { "Jeff Verkoeyen" => "jverkoey@gmail.com" }
   s.social_media_url = "http://twitter.com/featherless"
   s.requires_arc = true
+  s.platform = :ios, '6.0'
   s.ios.deployment_target = '6.0'
   s.osx.deployment_target = '10.7'
   s.source       = { :git => "https://github.com/nimbuskit/basics.git", :tag => "1.2.0" }
