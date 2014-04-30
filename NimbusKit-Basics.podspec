@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "NimbusKit-Basics"
-  s.version      = "1.2.0"
+  s.version      = "1.2.1"
   s.license      =  { :type => 'BSD' }
   s.summary      = "One file, plenty of basics."
   s.description  = <<-DESC
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.social_media_url = "http://twitter.com/featherless"
   s.requires_arc = true
   s.platform = :ios, '6.0'
-  s.source       = { :git => "https://github.com/nimbuskit/basics.git", :tag => "1.2.0" }
+  s.source       = { :git => "https://github.com/nimbuskit/basics.git", :tag => "1.2.1" }
   s.source_files  = 'src'
   s.public_header_files = 'src/NimbusKitBasics.h'
 end
