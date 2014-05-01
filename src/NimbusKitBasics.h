@@ -316,6 +316,10 @@ CG_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
 #define kCFCoreFoundationVersionNumber_iOS_6_1 793.00
 #endif
 
+#ifndef kCFCoreFoundationVersionNumber_iOS_7_0
+#define kCFCoreFoundationVersionNumber_iOS_7_0 847.2
+#endif
+
 
 #pragma mark 32/64 Bit Support
 
