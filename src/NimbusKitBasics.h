@@ -17,6 +17,25 @@
 
 #pragma mark Compiler Features
 
+#if !defined(NI_EXTERN)
+#  if defined(__cplusplus)
+#   define NI_EXTERN extern "C"
+#  else
+#   define NI_EXTERN extern
+#  endif
+#endif
+
+#if !defined(NI_INLINE)
+# if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#  define NI_INLINE static inline
+# elif defined(__cplusplus)
+#  define NI_INLINE static inline
+# elif defined(__GNUC__)
+#  define NI_INLINE static __inline__
+# else
+#  define NI_INLINE static
+# endif
+#endif
 
 #ifndef NI_DEPRECATED_METHOD
 #if __has_feature(attribute_deprecated_with_message)
@@ -121,7 +140,7 @@
 #import <sys/sysctl.h>
 
 // From: http://developer.apple.com/mac/library/qa/qa2004/qa1361.html
-CG_INLINE int NIIsInDebugger(void) {
+NI_INLINE int NIIsInDebugger(void) {
   int mib[4];
   struct kinfo_proc info;
   size_t size;
@@ -143,10 +162,16 @@ CG_INLINE int NIIsInDebugger(void) {
   return (info.kp_proc.p_flag & P_TRACED) != 0;
 }
 
-CG_INLINE BOOL NIIsRunningTests(void) {
+NI_INLINE BOOL NIIsRunningTests(void) {
   NSString* injectBundle = [[NSProcessInfo processInfo] environment][@"XCInjectBundle"];
   NSString* pathExtension = [injectBundle pathExtension];
-  return ([pathExtension isEqualToString:@"octest"] || [pathExtension isEqualToString:@"xctest"]);
+  BOOL isRunningTests = ([pathExtension isEqualToString:@"octest"] || [pathExtension isEqualToString:@"xctest"]);
+  if (!isRunningTests) {
+    // Much more generic approach for determining whether we're running tests.
+    NSArray* args = [[NSProcessInfo processInfo] arguments];
+    isRunningTests = [args containsObject:@"-XCTest"];
+  }
+  return isRunningTests;
 }
 
 #if TARGET_IPHONE_SIMULATOR
@@ -185,31 +210,31 @@ CG_INLINE BOOL NIIsRunningTests(void) {
 #define NI_DPRINTMETHODNAME() NI_DPRINT(@"%s", __PRETTY_FUNCTION__)
 
 
-#pragma mark Short-hand runtime checks.
+#pragma mark Short-Hand Runtime Checks
 
 
-CG_INLINE BOOL NIIsPad(void) {
+NI_INLINE BOOL NIIsPad(void) {
   return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
 }
 
-CG_INLINE BOOL NIIsPhone(void) {
+NI_INLINE BOOL NIIsPhone(void) {
   return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone;
 }
 
-CG_INLINE CGFloat NIScreenScale(void) {
+NI_INLINE CGFloat NIScreenScale(void) {
   return [[UIScreen mainScreen] scale];
 }
 
-CG_INLINE BOOL NIIsRetina(void) {
+NI_INLINE BOOL NIIsRetina(void) {
   return [[UIScreen mainScreen] scale] == 2.f;
 }
 
 // Pre-iOS 7-safe mechanism for accessing UIView's tintColor.
-CG_INLINE UIColor* NITintColorForViewWithFallback(UIView* view, UIColor* fallbackColor) {
+NI_INLINE UIColor* NITintColorForViewWithFallback(UIView* view, UIColor* fallbackColor) {
   return [view respondsToSelector:@selector(tintColor)] ? view.tintColor : fallbackColor;
 }
 
-CG_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
+NI_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
   return kCFCoreFoundationVersionNumber >= versionNumber;
 }
 
