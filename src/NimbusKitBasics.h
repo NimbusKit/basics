@@ -498,7 +498,7 @@ NI_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
 #pragma mark Current Version
 
 #ifndef NIMBUSKIT_BASICS_VERSION
-#define NIMBUSKIT_BASICS_VERSION NIMBUSKIT_BASICS_1_2_1
+#define NIMBUSKIT_BASICS_VERSION NIMBUSKIT_BASICS_1_2_2
 #endif
 
 #endif // #ifndef _NIMBUSKIT_BASICS_H_
@@ -521,11 +521,15 @@ NI_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
 #define NIMBUSKIT_BASICS_1_2_1 10201
 #endif
 
+#ifndef NIMBUSKIT_BASICS_1_2_2
+#define NIMBUSKIT_BASICS_1_2_2 10202
+#endif
+
 #pragma mark Version Check
 
 #ifndef NI_SUPPRESS_VERSION_WARNINGS
 
-  #if NIMBUSKIT_BASICS_VERSION < NIMBUSKIT_BASICS_1_2_1
+  #if NIMBUSKIT_BASICS_VERSION < NIMBUSKIT_BASICS_1_2_2
 
     // These macros allow us to inline C-strings with macro values.
     #ifndef NI_MACRO_DEFER
@@ -538,7 +542,7 @@ NI_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
     #define NI_MACRO_INLINE_STR(str) NI_MACRO_DEFER(NI_MACRO_STR, str)
     #endif
 
-    #pragma message "An older version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_VERSION) ") of NimbusKit's Basics was imported prior to this version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_1_2_1) "). This may cause unexpected behavior. You may suppress this warning by defining NI_SUPPRESS_VERSION_WARNINGS"
+    #pragma message "An older version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_VERSION) ") of NimbusKit's Basics was imported prior to this version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_1_2_2) "). This may cause unexpected behavior. You may suppress this warning by defining NI_SUPPRESS_VERSION_WARNINGS"
 
   #endif // NIMBUSKIT_BASICS_VERSION check
 

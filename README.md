@@ -170,6 +170,11 @@ In the meantime, all of the standard math functions are explicitly mapped to use
 Version History
 ===============
 
+1.2.2 on May 23, 2014
+-----
+
+`NI_INLINE`/`NI_EXTERN` macros and a more robust unit test check for debug assertions.
+
 1.2.1 on Apr 30, 2014
 -----
 
