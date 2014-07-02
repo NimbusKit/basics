@@ -1,8 +1,8 @@
-<!--dox @defgroup NimbusKitBasics NimbusKit Basics -->
+<!--dox @defgroup NimbusKitBasics Basics -->
 
 <div id="github" feature="Basics"></div>
 
-![](https://github.com/NimbusKit/Basics/raw/master/docs/gfx/banner.gif "Basics")
+![](https://github.com/NimbusKit/basics/raw/master/docs/gfx/basics_banner.gif "")
 
 The single header, `NimbusKitBasics.h`, is designed to be dropped into any source code or library. Within, you'll find plenty of common app-development goodies.
 
