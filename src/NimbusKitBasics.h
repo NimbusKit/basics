@@ -169,7 +169,7 @@ NI_INLINE BOOL NIIsRunningTests(void) {
   if (!isRunningTests) {
     // Much more generic approach for determining whether we're running tests.
     NSArray* args = [[NSProcessInfo processInfo] arguments];
-    isRunningTests = [args containsObject:@"-XCTest"];
+    isRunningTests = [args containsObject:@"-XCTest"] || [args containsObject:@"-XCTestScopeFile"];
   }
   return isRunningTests;
 }
