@@ -7,7 +7,10 @@
  */
 
 #import <Foundation/Foundation.h>
+
+#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+#endif
 
 // All macros #ifndef'd so that they can be individually overwritten if necessary.
 
@@ -209,6 +212,7 @@ NI_INLINE BOOL NIIsRunningTests(void) {
 
 #define NI_DPRINTMETHODNAME() NI_DPRINT(@"%s", __PRETTY_FUNCTION__)
 
+#if TARGET_OS_IPHONE
 
 #pragma mark Short-Hand Runtime Checks
 
@@ -237,6 +241,8 @@ NI_INLINE UIColor* NITintColorForViewWithFallback(UIView* view, UIColor* fallbac
 NI_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
   return kCFCoreFoundationVersionNumber >= versionNumber;
 }
+
+#endif
 
 #pragma mark iOS Version Numbers
 
