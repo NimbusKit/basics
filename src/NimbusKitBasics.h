@@ -133,6 +133,32 @@
 #endif
 
 
+#pragma mark Autoresizing Masks
+
+
+#ifndef UIViewAutoresizingFlexibleMargins
+#define UIViewAutoresizingFlexibleMargins (UIViewAutoresizingFlexibleLeftMargin \
+                                           | UIViewAutoresizingFlexibleTopMargin \
+                                           | UIViewAutoresizingFlexibleRightMargin \
+                                           | UIViewAutoresizingFlexibleBottomMargin)
+#endif
+
+#ifndef UIViewAutoresizingFlexibleDimensions
+#define UIViewAutoresizingFlexibleDimensions (UIViewAutoresizingFlexibleWidth \
+                                              | UIViewAutoresizingFlexibleHeight)
+#endif
+
+#ifndef UIViewAutoresizingNavigationBar
+#define UIViewAutoresizingNavigationBar (UIViewAutoresizingFlexibleWidth \
+                                         | UIViewAutoresizingFlexibleBottomMargin)
+#endif
+
+#ifndef UIViewAutoresizingToolbar
+#define UIViewAutoresizingToolbar (UIViewAutoresizingFlexibleWidth \
+                                   | UIViewAutoresizingFlexibleTopMargin)
+#endif
+
+
 #pragma mark Tools for Debugging
 
 
