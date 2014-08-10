@@ -115,7 +115,7 @@
 
 
 #ifndef NI_HEXCOLOR
-#define NI_HEXCOLOR(hex) RGBCOLOR(((hex >> 16) & 0xFF), ((hex >> 8) & 0xFF), ((hex) & 0xFF))
+#define NI_HEXCOLOR(hex) NI_RGBCOLOR(((hex >> 16) & 0xFF), ((hex >> 8) & 0xFF), ((hex) & 0xFF))
 
 // Example:
 // NI_HEXCOLOR(0xFF00FF) for colors pasted from DigitalColor Meter (handy tool, use it!)
@@ -125,7 +125,7 @@
 
 // `a` is a floating point value [0...1].
 #ifndef NI_HEXACOLOR
-#define NI_HEXACOLOR(hex,a) RGBACOLOR(((hex >> 16) & 0xFF), ((hex >> 8) & 0xFF), ((hex) & 0xFF), (a))
+#define NI_HEXACOLOR(hex,a) NI_RGBACOLOR(((hex >> 16) & 0xFF), ((hex >> 8) & 0xFF), ((hex) & 0xFF), (a))
 
 // Example:
 // NI_HEXACOLOR(0xFF00FF, 0.5) for colors pasted from DigitalColor Meter, but with alpha
