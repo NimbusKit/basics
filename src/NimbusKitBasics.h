@@ -342,7 +342,15 @@ NI_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
 #endif
 
 #ifndef kCFCoreFoundationVersionNumber_iOS_7_0
-#define kCFCoreFoundationVersionNumber_iOS_7_0 847.2
+#define kCFCoreFoundationVersionNumber_iOS_7_0 847.20
+#endif
+
+#ifndef kCFCoreFoundationVersionNumber_iOS_7_1
+#define kCFCoreFoundationVersionNumber_iOS_7_1 847.24
+#endif
+
+#ifndef kCFCoreFoundationVersionNumber_iOS_8_1
+#define kCFCoreFoundationVersionNumber_iOS_8_1 1141.14
 #endif
 
 
