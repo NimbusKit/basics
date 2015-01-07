@@ -220,4 +220,4 @@ You can be the first! [Open a pull request now](https://github.com/NimbusKit/Bas
 License
 =======
 
-NimbusKit's Basics is licensed under the BSD three-clause license. For a more permissive license (no redistribution of copyright notice, etc.), please contact Jeff at jverkoey@gmail.com for pricing.
+NimbusKit's Basics is released into the public domain.
