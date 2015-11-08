@@ -1,5 +1,5 @@
 /*
- Copyright 2013-present Jeff Verkoeyen. All Rights Reserved.
+ Copyright 2014-present Jeff Verkoeyen. All Rights Reserved.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@
 #ifndef _NIMBUSKIT_BASICS_H_
 #define _NIMBUSKIT_BASICS_H_
 
-
 #pragma mark Compiler Features
 
 #if !defined(NI_EXTERN)
@@ -49,39 +48,37 @@
 #endif
 
 #ifndef NI_DEPRECATED_METHOD
-#if __has_feature(attribute_deprecated_with_message)
+# if __has_feature(attribute_deprecated_with_message)
 
-#define NI_DEPRECATED_METHOD(_msg)  __attribute__((deprecated(_msg)))
+#  define NI_DEPRECATED_METHOD(_msg)  __attribute__((deprecated(_msg)))
 
 // Example:
 // - (void)yourDeprecatedMethod:(id)arg NI_DESIGNATED_INITIALIZER;
 
-#else
-#define NI_DEPRECATED_METHOD(_msg)  __attribute__((deprecated))
-#endif // #if __has_feature
+# else
+#  define NI_DEPRECATED_METHOD(_msg)  __attribute__((deprecated))
+# endif // #if __has_feature
 #endif // #ifndef NI_DEPRECATED_METHOD
 
-
 #ifndef NI_DESIGNATED_INITIALIZER
-#if __has_attribute(objc_designated_initializer)
+# if __has_attribute(objc_designated_initializer)
 
-#define NI_DESIGNATED_INITIALIZER __attribute((objc_designated_initializer))
+#  define NI_DESIGNATED_INITIALIZER __attribute((objc_designated_initializer))
 
 // Example:
 // - (instancetype)initWithArg:(id)arg NI_DESIGNATED_INITIALIZER;
 
-#else
-#define NI_DESIGNATED_INITIALIZER
-#endif // #if __has_feature
+# else
+#  define NI_DESIGNATED_INITIALIZER
+# endif // #if __has_feature
 #endif // #ifndef NI_DESIGNATED_INITIALIZER
-
 
 // For use in sources which contain only categories. Removes need for -force_load -all_load when building libraries.
 // Use once per source (.m) file (not per category).
 // name must be globally unique. Generally a good idea to prefix it.
 #ifndef NI_FIX_CATEGORY_BUG
-#define NI_FIX_CATEGORY_BUG(name) @interface NI_FIX_CATEGORY_BUG_##name : NSObject @end \
-                                  @implementation NI_FIX_CATEGORY_BUG_##name @end
+# define NI_FIX_CATEGORY_BUG(name) @interface NI_FIX_CATEGORY_BUG_##name : NSObject @end \
+                                   @implementation NI_FIX_CATEGORY_BUG_##name @end
 
 // Example:
 // NI_FIX_CATEGORY_BUG(NSMutableAttributedStringNimbusAttributedLabel)
@@ -89,9 +86,8 @@
 
 #endif
 
-
 #ifndef NI_IS_FLAG_SET
-#define NI_IS_FLAG_SET(value, flag) (((value) & (flag)) == (flag))
+# define NI_IS_FLAG_SET(value, flag) (((value) & (flag)) == (flag))
 
 // Example:
 // if (NI_IS_FLAG_SET(autoresizingMask, UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)
@@ -99,76 +95,67 @@
 
 #endif
 
-
 #pragma mark UIColor Generators
 
-
 #ifndef NI_RGBCOLOR
-#define NI_RGBCOLOR(r,g,b) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:1]
+# define NI_RGBCOLOR(r,g,b) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:1]
 
 // Example:
 // NI_RGBCOLOR(255, 0, 255) for a vibrant debugging color
 
 #endif
 
-
 // `a` is a floating point value [0...1].
 #ifndef NI_RGBACOLOR
-#define NI_RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
+# define NI_RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
 
 // Example:
 // NI_RGBACOLOR(255, 0, 255, 0.5) for a semi-translucently vibrant debugging color
 
 #endif
 
-
 #ifndef NI_HEXCOLOR
-#define NI_HEXCOLOR(hex) NI_RGBCOLOR(((hex >> 16) & 0xFF), ((hex >> 8) & 0xFF), ((hex) & 0xFF))
+# define NI_HEXCOLOR(hex) NI_RGBCOLOR(((hex >> 16) & 0xFF), ((hex >> 8) & 0xFF), ((hex) & 0xFF))
 
 // Example:
 // NI_HEXCOLOR(0xFF00FF) for colors pasted from DigitalColor Meter (handy tool, use it!)
 
 #endif
 
-
 // `a` is a floating point value [0...1].
 #ifndef NI_HEXACOLOR
-#define NI_HEXACOLOR(hex,a) NI_RGBACOLOR(((hex >> 16) & 0xFF), ((hex >> 8) & 0xFF), ((hex) & 0xFF), (a))
+# define NI_HEXACOLOR(hex,a) NI_RGBACOLOR(((hex >> 16) & 0xFF), ((hex >> 8) & 0xFF), ((hex) & 0xFF), (a))
 
 // Example:
 // NI_HEXACOLOR(0xFF00FF, 0.5) for colors pasted from DigitalColor Meter, but with alpha
 
 #endif
 
-
 #pragma mark Autoresizing Masks
 
-
 #ifndef UIViewAutoresizingFlexibleMargins
-#define UIViewAutoresizingFlexibleMargins (UIViewAutoresizingFlexibleLeftMargin \
-                                           | UIViewAutoresizingFlexibleTopMargin \
-                                           | UIViewAutoresizingFlexibleRightMargin \
-                                           | UIViewAutoresizingFlexibleBottomMargin)
+# define UIViewAutoresizingFlexibleMargins (UIViewAutoresizingFlexibleLeftMargin \
+                                            | UIViewAutoresizingFlexibleTopMargin \
+                                            | UIViewAutoresizingFlexibleRightMargin \
+                                            | UIViewAutoresizingFlexibleBottomMargin)
 #endif
 
 #ifndef UIViewAutoresizingFlexibleDimensions
-#define UIViewAutoresizingFlexibleDimensions (UIViewAutoresizingFlexibleWidth \
-                                              | UIViewAutoresizingFlexibleHeight)
+# define UIViewAutoresizingFlexibleDimensions (UIViewAutoresizingFlexibleWidth \
+                                               | UIViewAutoresizingFlexibleHeight)
 #endif
 
 #ifndef UIViewAutoresizingNavigationBar
-#define UIViewAutoresizingNavigationBar (UIViewAutoresizingFlexibleWidth \
-                                         | UIViewAutoresizingFlexibleBottomMargin)
+# define UIViewAutoresizingNavigationBar (UIViewAutoresizingFlexibleWidth \
+                                          | UIViewAutoresizingFlexibleBottomMargin)
 #endif
 
 #ifndef UIViewAutoresizingToolbar
-#define UIViewAutoresizingToolbar (UIViewAutoresizingFlexibleWidth \
-                                   | UIViewAutoresizingFlexibleTopMargin)
+# define UIViewAutoresizingToolbar (UIViewAutoresizingFlexibleWidth \
+                                    | UIViewAutoresizingFlexibleTopMargin)
 #endif
 
-
 #pragma mark Tools for Debugging
-
 
 #if defined(DEBUG) && !defined(NI_DISABLE_DASSERT)
 
@@ -229,13 +216,11 @@ NI_INLINE BOOL NIIsRunningTests(void) {
 
 #endif // #if defined(DEBUG) && !defined(NI_DISABLE_DASSERT)
 
-
 #if defined(DEBUG)
 #define NI_DPRINT(xx, ...) NSLog(@"%s(%d): " xx, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
 #define NI_DPRINT(xx, ...) ((void)0)
 #endif
-
 
 #if defined(DEBUG)
 #define NI_DCONDITIONLOG(condition, xx, ...) { if ((condition)) { NI_DPRINT(xx, ##__VA_ARGS__); } } ((void)0)
@@ -243,13 +228,11 @@ NI_INLINE BOOL NIIsRunningTests(void) {
 #define NI_DCONDITIONLOG(condition, xx, ...) ((void)0)
 #endif
 
-
 #define NI_DPRINTMETHODNAME() NI_DPRINT(@"%s", __PRETTY_FUNCTION__)
 
 #if TARGET_OS_IPHONE
 
 #pragma mark Short-Hand Runtime Checks
-
 
 NI_INLINE BOOL NIIsPad(void) {
   return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
@@ -280,50 +263,33 @@ NI_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
 
 #pragma mark iOS Version Numbers
 
-/** Released on July 11, 2008 */
 #define NI_IOS_2_0     20000
-
-/** Released on September 9, 2008 */
 #define NI_IOS_2_1     20100
-
-/** Released on November 21, 2008 */
 #define NI_IOS_2_2     20200
-
-/** Released on June 17, 2009 */
 #define NI_IOS_3_0     30000
-
-/** Released on September 9, 2009 */
 #define NI_IOS_3_1     30100
-
-/** Released on April 3, 2010 */
 #define NI_IOS_3_2     30200
-
-/** Released on June 21, 2010 */
 #define NI_IOS_4_0     40000
-
-/** Released on September 8, 2010 */
 #define NI_IOS_4_1     40100
-
-/** Released on November 22, 2010 */
 #define NI_IOS_4_2     40200
-
-/** Released on March 9, 2011 */
 #define NI_IOS_4_3     40300
-
-/** Released on October 12, 2011. */
 #define NI_IOS_5_0     50000
-
-/** Released on March 7, 2012. */
 #define NI_IOS_5_1     50100
-
-/** Released on September 19, 2012. */
 #define NI_IOS_6_0     60000
-
-/** Released on January 28, 2013. */
 #define NI_IOS_6_1     60100
-
-/** Released on September 18, 2013 */
 #define NI_IOS_7_0     70000
+#define NI_IOS_7_1     70100
+#define NI_IOS_8_0     80000
+#define NI_IOS_8_1     80100
+#define NI_IOS_8_2     80200
+#define NI_IOS_8_3     80300
+#define NI_IOS_8_4     80400
+#define NI_IOS_9_0     90000
+
+#define NI_TVOS_9_0    90000
+
+#define NI_WATCHOS_1_0 10000
+#define NI_WATCHOS_2_0 20000
 
 #ifndef kCFCoreFoundationVersionNumber_iPhoneOS_2_0
 #define kCFCoreFoundationVersionNumber_iPhoneOS_2_0 478.23
@@ -393,9 +359,11 @@ NI_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
 #define kCFCoreFoundationVersionNumber_iOS_8_1 1141.14
 #endif
 
+#ifndef kCFCoreFoundationVersionNumber_iOS_8_2
+#define kCFCoreFoundationVersionNumber_iOS_8_2 1142.16
+#endif
 
 #pragma mark 32/64 Bit Support
-
 
 #if CGFLOAT_IS_DOUBLE
 #define NI_CGFLOAT_EPSILON DBL_EPSILON
@@ -546,7 +514,7 @@ NI_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
 #pragma mark Current Version
 
 #ifndef NIMBUSKIT_BASICS_VERSION
-#define NIMBUSKIT_BASICS_VERSION NIMBUSKIT_BASICS_1_2_2
+#define NIMBUSKIT_BASICS_VERSION NIMBUSKIT_BASICS_1_2_3
 #endif
 
 #endif // #ifndef _NIMBUSKIT_BASICS_H_
@@ -573,11 +541,15 @@ NI_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
 #define NIMBUSKIT_BASICS_1_2_2 10202
 #endif
 
+#ifndef NIMBUSKIT_BASICS_1_2_3
+#define NIMBUSKIT_BASICS_1_2_3 10203
+#endif
+
 #pragma mark Version Check
 
 #ifndef NI_SUPPRESS_VERSION_WARNINGS
 
-  #if NIMBUSKIT_BASICS_VERSION < NIMBUSKIT_BASICS_1_2_2
+  #if NIMBUSKIT_BASICS_VERSION < NIMBUSKIT_BASICS_1_2_3
 
     // These macros allow us to inline C-strings with macro values.
     #ifndef NI_MACRO_DEFER
@@ -590,7 +562,7 @@ NI_INLINE BOOL NIDeviceOSVersionIsAtLeast(double versionNumber) {
     #define NI_MACRO_INLINE_STR(str) NI_MACRO_DEFER(NI_MACRO_STR, str)
     #endif
 
-    #pragma message "An older version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_VERSION) ") of NimbusKit's Basics was imported prior to this version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_1_2_2) "). This may cause unexpected behavior. You may suppress this warning by defining NI_SUPPRESS_VERSION_WARNINGS"
+    #pragma message "An older version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_VERSION) ") of NimbusKit's Basics was imported prior to this version (" NI_MACRO_INLINE_STR(NIMBUSKIT_BASICS_1_2_3) "). This may cause unexpected behavior. You may suppress this warning by defining NI_SUPPRESS_VERSION_WARNINGS"
 
   #endif // NIMBUSKIT_BASICS_VERSION check
 
