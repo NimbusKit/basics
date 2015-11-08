@@ -170,6 +170,12 @@ In the meantime, all of the standard math functions are explicitly mapped to use
 Version History
 ===============
 
+1.2.3 on November 8, 2015
+-----
+
+- Updated iOS SDK defines.
+- Minor cleanup.
+
 1.2.2 on May 23, 2014
 -----
 
