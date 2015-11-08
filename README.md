@@ -220,4 +220,4 @@ You can be the first! [Open a pull request now](https://github.com/NimbusKit/Bas
 License
 =======
 
-NimbusKit's Basics is released into the public domain.
+Licensed under the Apache 2.0 license.
